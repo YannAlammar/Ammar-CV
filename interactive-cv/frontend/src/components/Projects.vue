@@ -45,7 +45,7 @@ onMounted(async () => {
               <span
                 v-for="t in project.tech"
                 :key="t"
-                class="inline-block bg-lime-100 text-lime-800 text-sm font-semibold mr-2 mb-2 px-2.5 py-0.5 rounded-full"
+                class="inline-block bg-blue-100 text-blue-800 text-sm font-semibold mr-2 mb-2 px-2.5 py-0.5 rounded-full"
               >
                 {{ t }}
               </span>
@@ -54,7 +54,7 @@ onMounted(async () => {
               :href="project.link"
               target="_blank"
               rel="noopener noreferrer"
-              class="text-lime-600 font-semibold hover:underline"
+              class="text-blue-600 font-semibold hover:underline"
             >
               Lihat Detail →
             </a>

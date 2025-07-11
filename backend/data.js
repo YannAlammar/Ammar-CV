@@ -25,13 +25,6 @@ const skills = [
       tech: ['React.js', 'Laravel.js', 'MySql'],
       link: 'https://github.com/LavinaCaco/rentaliqra'
     },
-    {
-      title: 'Website Pengaduan Masyarakat',
-      image: 'pengaduan',
-      description: 'Website Yang Digunakan Untuk Pengaduan Masyarakat.',
-      tech: ['CodeIgniter','Bootstrap', 'MySql'],
-      link: 'https://github.com/LavinaCaco/Lavina-Pengaduan'
-    }
   ];
   
   module.exports = { educationHistory, skills, projects };
