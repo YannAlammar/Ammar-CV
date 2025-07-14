@@ -1,50 +1,45 @@
-// // backend/index.js
-// const express = require('express');
-// const cors = require('cors');
-// const { educationHistory, skills, projects } = require('./data');
-// const app = express();
-// const PORT = 3000;
-// app.use(cors());
-
-// app.use(express.json());
-// app.get('/api/education', (req, res) => res.json(educationHistory));
-// app.get('/api/skills', (req, res) => res.json(skills));
-// app.get('/api/projects', (req, res) => res.json(projects));
-// app.listen(PORT, () => {
-// console.log(` Server backend berjalan di http://localhost:${PORT}`);
-// });
+// backend/index.js
 
 const express = require('express');
 const cors = require('cors');
 const { sql } = require('@vercel/postgres');
 const app = express();
-app.use(cors());
-// Endpoint API yang akan mengambil data dari Database
-app.get('/api/education', async (req, res) => {
-try {
-const { rows } = await sql`SELECT * FROM education ORDER BY period
-DESC;`;
-res.status(200).json(rows);
-} catch (error) {
-res.status(500).json({ error: 'Gagal mengambil data pendidikan' });
-}
-});
-app.get('/api/skills', async (req, res) => {
-try {
-const { rows } = await sql`SELECT * FROM skills;`;
-res.status(200).json(rows);
-} catch (error) {
-res.status(500).json({ error: 'Gagal mengambil data skill' });
 
-}
+// Middleware
+app.use(cors());
+app.use(express.json()); // Baik untuk ditambahkan jika nanti ada POST/PUT request
+
+// Endpoint API yang akan mengambil data dari Database
+// Perhatikan: '/api' sudah dihapus dari semua rute di bawah ini
+app.get('/education', async (req, res) => {
+  try {
+    const { rows } = await sql`SELECT * FROM education ORDER BY period DESC;`;
+    res.status(200).json(rows);
+  } catch (error) {
+    console.error('Error fetching education:', error); // Tambahkan log untuk debug
+    res.status(500).json({ message: 'Gagal mengambil data pendidikan', error: error.message });
+  }
 });
-app.get('/api/projects', async (req, res) => {
-try {
-const { rows } = await sql`SELECT * FROM projects;`;
-res.status(200).json(rows);
-} catch (error) {
-res.status(500).json({ error: 'Gagal mengambil data proyek' });
-}
+
+app.get('/skills', async (req, res) => {
+  try {
+    const { rows } = await sql`SELECT * FROM skills;`;
+    res.status(200).json(rows);
+  } catch (error) {
+    console.error('Error fetching skills:', error); // Tambahkan log untuk debug
+    res.status(500).json({ message: 'Gagal mengambil data keahlian', error: error.message });
+  }
 });
-// Wajib ada agar Vercel bisa menjalankan backend
+
+app.get('/projects', async (req, res) => {
+  try {
+    const { rows } = await sql`SELECT * FROM projects;`;
+    res.status(200).json(rows);
+  } catch (error) {
+    console.error('Error fetching projects:', error); // Tambahkan log untuk debug
+    res.status(500).json({ message: 'Gagal mengambil data proyek', error: error.message });
+  }
+});
+
+// Wajib ada agar Vercel bisa menjalankan backend sebagai Serverless Function
 module.exports = app;
