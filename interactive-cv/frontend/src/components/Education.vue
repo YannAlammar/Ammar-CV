@@ -1,16 +1,24 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
-import SectionTitle from './SectionTitle.vue';
+import SectionTitle from './SectionTitle.vue'; // Komponen ini diimpor tapi tidak digunakan dalam script
 
+// Mendefinisikan URL API yang akan digunakan berdasarkan lingkungan (production atau development)
+const API_URL = import.meta.env.PROD ? '/api/education' : 'http://localhost:3000/api/education';
+
+// Membuat variabel reaktif untuk menyimpan riwayat pendidikan
 const educationHistory = ref([]);
 
+// Hook onMounted akan berjalan setelah komponen di-mount ke DOM
 onMounted(async () => {
   try {
-    const response = await axios.get('http://localhost:3000/api/education');
+    // Mengambil data dari API menggunakan axios
+    const response = await axios.get(API_URL);
+    // Menyimpan data yang didapat ke dalam variabel reaktif educationHistory
     educationHistory.value = response.data;
   } catch (error) {
-    console.error(error);
+    // Menampilkan pesan error di konsol jika pengambilan data gagal
+    console.error('Gagal mengambil data pendidikan:', error);
   }
 });
 </script>

@@ -1,25 +1,35 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed } from 'vue'; // 'computed' diimpor tapi tidak digunakan
 import axios from 'axios';
+// import SectionTitle from './SectionTitle.vue'; // Komponen ini tidak digunakan dalam script
 
+// Mendefinisikan URL API dinamis untuk produksi dan pengembangan
+const API_URL = import.meta.env.PROD ? '/api/skills' : 'http://localhost:3000/api/skills';
+
+// Variabel reaktif untuk menyimpan daftar keahlian
 const skills = ref([]);
 
+// Hook onMounted berjalan setelah komponen terpasang
 onMounted(async () => {
   try {
-    const response = await axios.get('http://localhost:3000/api/skills');
+    // Mencoba mengambil data dari API
+    const response = await axios.get(API_URL);
     skills.value = response.data;
   } catch (error) {
+    // Jika gagal, tampilkan pesan error yang jelas di konsol
     console.error("Gagal mengambil data keahlian:", error);
-    // Data fallback untuk tampilan
+
+    // Gunakan data fallback agar aplikasi tetap bisa menampilkan sesuatu
+    // Ini sangat berguna saat API backend tidak aktif selama pengembangan frontend
     skills.value = [
-        { name: 'React.js', iconUrl: 'URL_TO_YOUR_ICON', level: 'Mahir' },
-        { name: 'CodeIgniter', iconUrl: 'URL_TO_YOUR_ICON', level: 'Mahir' },
-        { name: 'Laravel', iconUrl: 'URL_TO_YOUR_ICON', level: 'Mahir' },
-        { name: 'Tailwind CSS', iconUrl: 'URL_TO_YOUR_ICON', level: 'Menengah' },
-        { name: 'Bootstrap CSS', iconUrl: 'URL_TO_YOUR_ICON', level: 'Menengah' },
-        { name: 'MySQL', iconUrl: 'URL_TO_YOUR_ICON', level: 'Menengah' },
-        { name: 'Git & GitHub', iconUrl: 'URL_TO_YOUR_ICON', level: 'Mahir' },
-        { name: 'HTML5 & CSS3', iconUrl: 'URL_TO_YOUR_ICON', level: 'Mahir' }
+      { name: 'React.js', iconUrl: 'URL_TO_YOUR_ICON', level: 'Mahir' },
+      { name: 'CodeIgniter', iconUrl: 'URL_TO_YOUR_ICON', level: 'Mahir' },
+      { name: 'Laravel', iconUrl: 'URL_TO_YOUR_ICON', level: 'Mahir' },
+      { name: 'Tailwind CSS', iconUrl: 'URL_TO_YOUR_ICON', level: 'Menengah' },
+      { name: 'Bootstrap CSS', iconUrl: 'URL_TO_YOUR_ICON', level: 'Menengah' },
+      { name: 'MySQL', iconUrl: 'URL_TO_YOUR_ICON', level: 'Menengah' },
+      { name: 'Git & GitHub', iconUrl: 'URL_TO_YOUR_ICON', level: 'Mahir' },
+      { name: 'HTML5 & CSS3', iconUrl: 'URL_TO_YOUR_ICON', level: 'Mahir' }
     ];
   }
 });

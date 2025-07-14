@@ -3,22 +3,33 @@ import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import SectionTitle from './SectionTitle.vue';
 
+// Impor aset gambar secara lokal
 import pengaduan from '@/assets/pengaduan.png';
 import rental from '@/assets/rental.png';
 
+// Buat pemetaan dari nama string ke aset gambar yang diimpor
+// Ini berguna untuk menampilkan gambar secara dinamis berdasarkan data dari API
 const imageMap = {
   pengaduan,
   rental
 };
 
+// Definisikan URL API yang dinamis untuk lingkungan produksi dan pengembangan
+const API_URL = import.meta.env.PROD ? '/api/projects' : 'http://localhost:3000/api/projects';
+
+// Variabel reaktif untuk menyimpan daftar proyek
 const projects = ref([]);
 
+// Hook onMounted berjalan setelah komponen terpasang di DOM
 onMounted(async () => {
   try {
-    const response = await axios.get('http://localhost:3000/api/projects');
+    // Mengambil data proyek dari API menggunakan URL dinamis
+    const response = await axios.get(API_URL);
+    // Menyimpan data yang didapat ke variabel reaktif
     projects.value = response.data;
   } catch (error) {
-    console.error(error);
+    // Menampilkan pesan error yang lebih deskriptif jika gagal
+    console.error('Gagal mengambil data proyek:', error);
   }
 });
 </script>
